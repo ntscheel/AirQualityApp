@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<title> lec2 </title>
+	</head>
+	<body>
+		<div id="ip1_field">
+			Coordinates: <br>
+			<input id="coords" type="text" name="coords"><br>
+			Radius:<br>
+			<input id="radius" type="text" name="radius"><br>
+			Parameter:<br>
+			<select id="parameter">
+				<option value="pm25">pm25</option>
+				<option value="pm10">pm10</option>
+				<option value="so2">so2</option>
+				<option value="no2">no2</option>
+				<option value="o3">o3</option>
+				<option value="co">co</option>
+				<option value="bc">bc</option>
+			</select> <br> <br>
+			<button onclick="clickFunction()"> Send Request </button>
+		</div>
+		
+		<div>
+			<table id="AQTable">
+				<thead>
+					<tr>
+						<th> Location
+						<th> Parameter
+						<th> Value
+						<th> Date
+					<tr>
+				</thead>
+				<tbody id="aqbody">
+				</tbody>
+			</table>
+		</div>
+		
+		<script src="AQtest.js"></script>
+	</body>
+</html>
