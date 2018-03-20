@@ -1,5 +1,6 @@
-# AirQualityApp
-CISC375 Air Quality App
+# AirQualityApp - CISC375
+
+https://ntscheel.github.io/AirQualityApp/
 
 Bootstrap 4 - https://www.w3schools.com/bootstrap4/default.asp
 AngularJS - https://www.w3schools.com/angular/default.asp

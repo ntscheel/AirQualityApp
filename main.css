@@ -1,0 +1,54 @@
+/*
+ * Color Palette
+ * Dark Blue - #17252A
+ * Medium Blue - #2B7A78
+ * Background Blue - #3AAFA9
+ * Blue-White - #DEF2F1
+ * White - #FEFFFF
+ */
+
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+html{
+    position: relative;
+    min-height: 100%;
+}
+body {
+    background-color: #3AAFA9;
+    font-family: 'Raleway', sans-serif;
+    margin-bottom: 50px;
+}
+h1{
+    font-weight: bold;
+}
+.header{
+    display: flex;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px; /* Set the fixed height of the footer here */
+    line-height: 50px; /* Vertically center the text there */
+    background-color: #2B7A78;
+    color: #FEFFFF;
+    text-align: center;
+}
+
+/* ----- Table Styles ----- */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #DEF2F1;
+    text-align: left;
+    padding: 8px;
+}
+tr:nth-child(even) {
+    background-color: #DEF2F1;
+}
+tr:nth-child(odd) {
+    background-color: #FEFFFF;
+}
+
