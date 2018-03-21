@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="mainApp">
+<html lang="en">
 <head>
     <title>Air Quality App</title>
     <meta charset="utf-8">
@@ -17,13 +17,10 @@
     <!-- AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
-    <!-- --------- -->
-    <script src="main.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCsSg_0-Xce4utRO6SanxQD1hPGCm7GYc&libraries=places"></script>
+    <!-- Google Maps -->
     <script src="map.js"></script>
-
 </head>
-<body ng-controller="mainController">
+<body>
 
 <div class="container-fluid">
     <div class="header">
@@ -35,21 +32,35 @@
     </div>
 
     <div class="main">
-        <div ng-view></div>
+        <div class="row">
+            <div class="col-md-6">
+                <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+                <div id="map"></div>
+            </div>
+            <div id="dataTable" class="col-md-6">
+                <table id="airQualityTable">
+                    <thead>
+                    <tr><th>Test</th><th>Test</th><th>Test</th><th>Test</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
+                    <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
+                    <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
+                    <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
+                    <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 </div>
-
-
-<div id="main">
-
-</div>
-
 <footer class="footer">
     <div class="container">
-        <a href="#/about">About this project.</a>
+        About this project.
     </div>
 </footer>
 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCsSg_0-Xce4utRO6SanxQD1hPGCm7GYc&libraries=places"></script>
 </body>
 </html>
