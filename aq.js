@@ -2,10 +2,11 @@
 
 function requestAQ(coords, radius, parameter){
 	var req = new XMLHttpRequest();
+	console.log("requestAQ called");
 	req.onreadystatechange = function(){
 		if (req.readyState==4 && req.status ==200){
 			var obj = JSON.parse(req.responseText);
-			//console.log(obj);
+			console.log(obj);
 			drawTable(obj);
 		}
 	}
