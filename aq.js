@@ -17,7 +17,7 @@ function requestAQ(coords, radius, parameter){
 
 function drawTable(obj){
 	// remove old rows
-	$("#dataTable tr").remove();
+	$("#dataTable>tr").remove();
 
 	var results = obj.results;
 	var str = "";
