@@ -23,7 +23,7 @@ function initMap() {
     // the map idles
     map.addListener('idle', function() {
         var LatLng = map.getCenter();
-        requestAQ(LatLng.toString(), 10000, "pm25");
+        requestAQ(LatLng.lat() + "," + LatLng.lng(), 10000, "pm25");
     });
 
 
