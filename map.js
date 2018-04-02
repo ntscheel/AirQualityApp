@@ -17,6 +17,11 @@ function initMap() {
     // Bias the SearchBox results towards current map's viewport.
     map.addListener('bounds_changed', function() {
         searchBox.setBounds(map.getBounds());
+    });
+    
+    // Add a listener that populates our data table when
+    // the map idles
+    map.addListener('idle', function() {
         var LatLng = map.getCenter();
         requestAQ(LatLng.toString(), 10000, "pm25");
     });
