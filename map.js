@@ -17,6 +17,7 @@ function initMap() {
     // Bias the SearchBox results towards current map's viewport.
     map.addListener('bounds_changed', function() {
         searchBox.setBounds(map.getBounds());
+        requestAQ("43,-93", 100000, "pm25");
     });
 
 
