@@ -17,7 +17,7 @@ function requestAQ(coords, radius, parameter){
 
 function drawTable(obj){
 	// remove old rows
-	$("#dataTable>tr").remove();
+	$("#dataTable tbody tr").remove();
 
 	var results = obj.results;
 	var str = "";
@@ -29,7 +29,7 @@ function drawTable(obj){
 		str += "<td>" + results[i].measurements[0].lastUpdated + "</td>";
 		str += "</tr>"
 
-		$("dataTable").append(str);
+		$("dataTable tbody").append(str);
 	}
 
 }
