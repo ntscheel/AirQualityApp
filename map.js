@@ -36,7 +36,8 @@ function initMap() {
     });
     map.addListener('idle', function() {
         var LatLng = map.getCenter();
-        requestAQ(LatLng.lat() + "," + LatLng.lng(), 10000, "pm25");
+        var radius = calculateRadius(LatLng.lat(), map.zoom);
+        requestAQ(LatLng.lat() + "," + LatLng.lng(), radius, "pm25");
     });
 
 
@@ -125,4 +126,19 @@ function geocodeLatLng(geocoder, map, infowindow, latlngInput, input) {
             window.alert('Geocoder failed due to: ' + status);
         }
     });
+}
+
+function calculateRadius(latitude, zoomLevel){
+    var width = $("#map").width();
+    var height = $("#map").height();
+    var pixelRadius = Math.sqrt(width*width/4 + height*height/4);
+
+    // Equation from this post by a Google employee:
+    // https://groups.google.com/forum/#!topic/google-maps-js-api-v3/hDRO4oHVSeM
+    // This may not be what we're looking for, but see where it goes
+    metersPerPixel = 156543.03392 * Math.cos(latitude * Math.PI / 180) / Math.pow(2, zoomLevel);
+
+    // If metersPerPx is correct, we should be able to just multiply our two values
+    // pixelRadius * metersPerPixel should give us the radius length in meters
+    return pixelRadius * metersPerPixel;
 }
