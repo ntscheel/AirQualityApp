@@ -2,13 +2,14 @@
 
 var map;
 var markers = [];
+var infoWindow;
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 44.940623, lng: -93.193660},
         zoom: 13,
         mapTypeId: 'roadmap'
     });
-    var infoWindow = new google.maps.InfoWindow;
+    infoWindow = new google.maps.InfoWindow;
     var geocoder = new google.maps.Geocoder;
 
     // Create the search box and link it to the UI element.
@@ -32,6 +33,9 @@ function initMap() {
         var LatLng = map.getCenter();
         var latlngStr = (LatLng.lat() + "," + LatLng.lng());
         geocodeLatLng(geocoder, map, infoWindow, latlngStr, input); // Get location name
+    });
+    map.addListener('idle', function() {
+        var LatLng = map.getCenter();
         requestAQ(LatLng.lat() + "," + LatLng.lng(), 10000, "pm25");
     });
 
@@ -85,7 +89,7 @@ function initMap() {
     });
 }
 
-function placeMarkers(coordsArr){
+function createMarkers(coordsArr){
     if(coordsArr){
         // Clear out the old markers.
         markers.forEach(function(marker) {
@@ -93,18 +97,18 @@ function placeMarkers(coordsArr){
         });
         markers = [];
         var newMarker;
+        var coordSplit;
         for(var i = 0; i < coordsArr.length; i++){
-            var coordSplit = coordsArr[i].split(',',3);
+            coordSplit = coordsArr[i].split(',',3);
+            var latLng = new google.maps.LatLng((parseFloat(coordSplit[1])), (parseFloat(coordSplit[0])));
+
             newMarker = new google.maps.Marker({
-                position: {lat: (parseFloat(coordSplit[0])), lng: (parseFloat(coordSplit[1]))},
+                position: latLng,
                 map: map
             });
-            newMarker.setMap(map);
-            markers.push(newMarker);
-            console.log(markers);
         }
-        console.log(markers);
     }
+
 }
 
 function geocodeLatLng(geocoder, map, infowindow, latlngInput, input) {

@@ -9,7 +9,7 @@ function requestAQ(coords, radius, parameter){
 			var obj = JSON.parse(req.responseText);
 			drawTable(obj);
             coordsArr = getCoords(obj);
-            placeMarkers(coordsArr);
+            createMarkers(coordsArr);
 
 		}
 	}
