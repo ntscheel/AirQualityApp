@@ -2,23 +2,32 @@
 
 function requestAQ(coords, radius, parameter){
 	var req = new XMLHttpRequest();
-	console.log("requestAQ called");
+	var coordsArr = null;
+	// console.log("requestAQ called");
 	req.onreadystatechange = function(){
 		if (req.readyState==4 && req.status ==200){
 			var obj = JSON.parse(req.responseText);
-			console.log(obj);
 			drawTable(obj);
+            coordsArr = getCoords(obj);
+            placeMarkers(coordsArr);
+
 		}
 	}
 	var params="coordinates=" + coords + "&radius=" + radius + "&parameter=" + parameter + "&sort=date";
 	req.open("GET", "https://api.openaq.org/v1/latest" +"?"+params, true);
 	req.send();
+
 }
 
+function getCoords(obj) {
+    var results = obj.results;
+    var coordArray = [];
+    for (var i = 0; i < results.length; i++) {
+        coordArray[i] = results[i].coordinates.longitude + ',' + results[i].coordinates.latitude + ',' + results[i].location;
+    }
+    return coordArray;
+}
 function drawTable(obj){
-	// remove old rows
-	$("#dataTable tbody tr").remove();
-
 	var results = obj.results;
 	var str = "";
 	for (var i = 0; i < results.length; i++){
@@ -29,7 +38,6 @@ function drawTable(obj){
 		str += "<td>" + results[i].measurements[0].lastUpdated + "</td>";
 		str += "</tr>"
 
-		$("#dataTable tbody").append(str);
+		$("#dataTable tbody").html(str);
 	}
-
 }

@@ -8,21 +8,30 @@ function initMap() {
         zoom: 13,
         mapTypeId: 'roadmap'
     });
+    var infoWindow = new google.maps.InfoWindow;
+    var geocoder = new google.maps.Geocoder;
 
     // Create the search box and link it to the UI element.
     var input = document.getElementById('pac-input');
     var searchBox = new google.maps.places.SearchBox(input);
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
+    input.addEventListener('focus', function() {
+       input.value = "";
+    });
+
     // Bias the SearchBox results towards current map's viewport.
     map.addListener('bounds_changed', function() {
         searchBox.setBounds(map.getBounds());
     });
-    
+
+
     // Add a listener that populates our data table when
     // the map idles
-    map.addListener('idle', function() {
+    map.addListener('dragend', function() {
         var LatLng = map.getCenter();
+        var latlngStr = (LatLng.lat() + "," + LatLng.lng());
+        geocodeLatLng(geocoder, map, infoWindow, latlngStr, input); // Get location name
         requestAQ(LatLng.lat() + "," + LatLng.lng(), 10000, "pm25");
     });
 
@@ -73,5 +82,43 @@ function initMap() {
             }
         });
         map.fitBounds(bounds);
+    });
+}
+
+function placeMarkers(coordsArr){
+    if(coordsArr){
+        // Clear out the old markers.
+        markers.forEach(function(marker) {
+            marker.setMap(null);
+        });
+        markers = [];
+        var newMarker;
+        for(var i = 0; i < coordsArr.length; i++){
+            var coordSplit = coordsArr[i].split(',',3);
+            newMarker = new google.maps.Marker({
+                position: {lat: (parseFloat(coordSplit[0])), lng: (parseFloat(coordSplit[1]))},
+                map: map
+            });
+            newMarker.setMap(map);
+            markers.push(newMarker);
+            console.log(markers);
+        }
+        console.log(markers);
+    }
+}
+
+function geocodeLatLng(geocoder, map, infowindow, latlngInput, input) {
+    var latlngStr = latlngInput.split(',', 2);
+    var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+    geocoder.geocode({'location': latlng}, function(results, status) {
+        if (status === 'OK') {
+            if (results[0]) {
+                input.value = results[0].formatted_address;
+            } else {
+                window.alert('No results found');
+            }
+        } else {
+            window.alert('Geocoder failed due to: ' + status);
+        }
     });
 }
