@@ -27,17 +27,17 @@ function initMap() {
     });
 
 
-    // Add a listener that populates our data table when
-    // the map idles
     map.addListener('dragend', function() {
         var LatLng = map.getCenter();
         var latlngStr = (LatLng.lat() + "," + LatLng.lng());
         geocodeLatLng(geocoder, map, infoWindow, latlngStr, input); // Get location name
     });
+
+    // Get air quality data and repopulate table on map idle
     map.addListener('idle', function() {
         var LatLng = map.getCenter();
         var radius = calculateRadius(LatLng.lat(), map.zoom);
-        requestAQ(LatLng.lat() + "," + LatLng.lng(), radius, "pm25");
+        requestAQ(LatLng.lat() + "," + LatLng.lng(), radius);
     });
 
 
@@ -52,6 +52,7 @@ function initMap() {
 
         // Clear out the old markers.
         markers.forEach(function(marker) {
+            console.log(marker);
             marker.setMap(null);
         });
         markers = [];
@@ -94,6 +95,7 @@ function createMarkers(coordsArr){
     if(coordsArr){
         // Clear out the old markers.
         markers.forEach(function(marker) {
+            console.log(marker);
             marker.setMap(null);
         });
         markers = [];
@@ -135,7 +137,6 @@ function calculateRadius(latitude, zoomLevel){
 
     // Equation from this post by a Google employee:
     // https://groups.google.com/forum/#!topic/google-maps-js-api-v3/hDRO4oHVSeM
-    // This may not be what we're looking for, but see where it goes
     metersPerPixel = 156543.03392 * Math.cos(latitude * Math.PI / 180) / Math.pow(2, zoomLevel);
 
     // If metersPerPx is correct, we should be able to just multiply our two values
