@@ -7,14 +7,12 @@ function requestAQ(coords, radius){
 
 	//console.log(requestObj);
 	//var str = JSON.stringify(requestObj);
-	console.log(requestObj);
+	// console.log(requestObj);
 
     $.get( "https://api.openaq.org/v1/latest", requestObj )
         .done(function( obj ) {
-            console.log(obj);
             drawTable(obj);
-            coordsArr = getCoords(obj);
-            createMarkers(coordsArr);
+            createMarkers(obj.results);
         });
 
 	// // On request completion
@@ -31,14 +29,6 @@ function requestAQ(coords, radius){
 	// req.send();
 }
 
-function getCoords(obj) {
-    var results = obj.results;
-    var coordArray = [];
-    for (var i = 0; i < results.length; i++) {
-        coordArray[i] = results[i].coordinates.longitude + ',' + results[i].coordinates.latitude + ',' + results[i].location;
-    }
-    return coordArray;
-}
 function drawTable(obj){
 	var results = obj.results;
 	var str = "";
@@ -56,8 +46,8 @@ function drawTable(obj){
     // We have our checkedParameters - cross check data point's available measurements
 	for (var i = 0; i < results.length; i++){ // for each data point we have gotten
         for (var j = 0; j < results[i].measurements.length; j++){ // for each measurement contained in data point
-            console.log("checkedParameters: " + checkedParameters);
-            console.log("parameter: " + results[i].measurements[j].parameter);
+            // console.log("checkedParameters: " + checkedParameters);
+            // console.log("parameter: " + results[i].measurements[j].parameter);
             if (checkedParameters.includes(results[i].measurements[j].parameter)){
                 // We have a parameter in our datapoint that is checked - put it in table
                 str += "<tr>";
@@ -81,7 +71,7 @@ function getRequestObject(coords, radius){
             parameters.push(checkbox.id);
         }
     });
-    console.log(parameters);
+    // console.log(parameters);
     var requestObject = {"coordinates": coords, "radius": radius};
     return requestObject;
 }

@@ -61,10 +61,17 @@ h1{
     color: #FEFFFF;
 }
 
+#checkboxContainer {
+    background-color: #DEF2F1;
+    border: 1px solid #24363d;
+    border-radius: 10px;
+}
+
 /* ----- Table Styles ----- */
 table {
     border-collapse: collapse;
     width: 100%;
+    margin: 10px;
 }
 
 td, th {

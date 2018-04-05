@@ -89,29 +89,59 @@ function initMap() {
         });
         map.fitBounds(bounds);
     });
+
+    var LatLng = map.getCenter();
+    var latlngStr = (LatLng.lat() + "," + LatLng.lng());
+    var radius = calculateRadius(LatLng.lat(), map.zoom);
+    geocodeLatLng(geocoder, map, infoWindow, latlngStr, input); // Get location name
+    requestAQ(LatLng.lat() + "," + LatLng.lng(), radius);
 }
 
-function createMarkers(coordsArr){
-    if(coordsArr){
+function createMarkers(results){
+    console.log("In createMarkers:");
+    if(results){
         // Clear out the old markers.
         markers.forEach(function(marker) {
-            console.log(marker);
             marker.setMap(null);
         });
         markers = [];
         var newMarker;
-        var coordSplit;
-        for(var i = 0; i < coordsArr.length; i++){
-            coordSplit = coordsArr[i].split(',',3);
-            var latLng = new google.maps.LatLng((parseFloat(coordSplit[1])), (parseFloat(coordSplit[0])));
+        var infowindow;
+        for(var i = 0; i < results.length; i++){
+            var loc = results[i].location;
+            var lat = parseFloat(results[i].coordinates.latitude);
+            var lng = parseFloat(results[i].coordinates.longitude);
+            var latLng = new google.maps.LatLng(lat, lng);
+
+            var content = "<b>" + loc + "</b>";
+            var data = results[i].measurements;
+            console.log(data);
+            if(data.length > 0){
+                for(var j = 0; j < data.length; j++){
+                    content += "<p>" + data[j].parameter + ": " + data[j].value + " " + data[j].unit + "</p>";
+                }
+            }
 
             newMarker = new google.maps.Marker({
                 position: latLng,
+                title: loc,
                 map: map
             });
-        }
-    }
+            markers.push(newMarker);
 
+            infowindow = new google.maps.InfoWindow();
+
+            google.maps.event.addListener(newMarker,'click', (function(newMarker,content,infowindow){
+                return function() {
+                    infowindow.setContent(content);
+                    infowindow.open(map,newMarker);
+                };
+            })(newMarker,content,infowindow));
+        }
+        var markerCluster = new MarkerClusterer(map, markers,
+            {imgPath: '/img/m'});
+
+    }
 }
 
 function geocodeLatLng(geocoder, map, infowindow, latlngInput, input) {

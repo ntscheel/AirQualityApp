@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row justify-content-md-center">
     <div class="col-md-6">
         <input id="pac-input" class="controls" type="text" placeholder="Search Box">
         <div id="map"></div>
@@ -6,42 +6,43 @@
             initMap();
         </script>
     </div>
-    <div id="dataTable" class="col-md-6">
-        <table id="airQualityTable">
-            <thead>
-            <tr><th>Location</th><th>Parameter</th><th>Measurement</th><th>Time Taken</th></tr>
-            </thead>
-            <tbody>
-            <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
-            <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
-            <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
-            <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
-            <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
-            </tbody>
-        </table>
+    <div id="dataTable" class="col-md-4">
+        <div id="checkboxContainer" class="col-md-6">
+            <h2>Filter by Pollutant</h2>
+            <input type="checkbox" id="pm25" name="parameter">
+            <label for="pm25">pm25</label><br>
+
+            <input type="checkbox" id="pm10" name="parameter">
+            <label for="pm10">pm10</label><br>
+
+            <input type="checkbox" id="so2" name="parameter">
+            <label for="so2">so2</label><br>
+
+            <input type="checkbox" id="no2" name="parameter">
+            <label for="no2">no2</label><br>
+
+            <input type="checkbox" id="o3" name="parameter">
+            <label for=o3>o3</label><br>
+
+            <input type="checkbox" id="co" name="parameter">
+            <label for="co">co</label><br>
+
+            <input type="checkbox" id="bc" name="parameter">
+            <label for="bc">bc</label><br>
+        </div>
     </div>
 </div>
 <div class="row">
-    <div id="checkboxContainer" class="col-md-6" style="background-color: white">
-        <input type="checkbox" id="pm25" name="parameter">
-        <label for="pm25">pm25</label><br>
-
-        <input type="checkbox" id="pm10" name="parameter">
-        <label for="pm10">pm10</label><br>
-
-        <input type="checkbox" id="so2" name="parameter">
-        <label for="so2">so2</label><br>
-
-        <input type="checkbox" id="no2" name="parameter">
-        <label for="no2">no2</label><br>
-
-        <input type="checkbox" id="o3" name="parameter">
-        <label for=o3>o3</label><br>
-
-        <input type="checkbox" id="co" name="parameter">
-        <label for="co">co</label><br>
-
-        <input type="checkbox" id="bc" name="parameter">
-        <label for="bc">bc</label><br>
-    </div>
+    <table id="airQualityTable">
+        <thead>
+        <tr><th>Location</th><th>Parameter</th><th>Measurement</th><th>Time Taken</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
+        <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
+        <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
+        <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
+        <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
+        </tbody>
+    </table>
 </div>
