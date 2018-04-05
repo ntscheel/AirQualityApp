@@ -139,7 +139,40 @@ function createMarkers(results){
             })(newMarker,content,infowindow));
         }
         var markerCluster = new MarkerClusterer(map, markers,
-            {imgPath: '/img/m'});
+            {
+                styles: [
+                    {
+                        textColor: 'white',
+                        url: 'm/m1.png',
+                        height: 52,
+                        width: 53
+                    },
+                    {
+                        textColor: 'white',
+                        url: 'm/m2.png',
+                        height: 55,
+                        width: 56
+                    },
+                    {
+                        textColor: 'white',
+                        url: 'm/m3.png',
+                        height: 65,
+                        width: 66
+                    },
+                    {
+                        textColor: 'white',
+                        url: 'm/m4.png',
+                        height: 77,
+                        width: 78
+                    },
+                    {
+                        textColor: 'white',
+                        url: 'm/m5.png',
+                        height: 89,
+                        width: 90
+                    }
+                ]
+            });
 
     }
 }
