@@ -41,10 +41,10 @@ function getCoords(obj) {
 }
 
 function drawTable(obj){
-	var results = obj.results;
-	var str = "";
 
-	// Get a list of the checked parameter boxes.
+    var results = obj.results;
+    var params = ["pm25", "pm10", "so2", "no2", "o3", "co", "bc"];
+
     var checkboxArray = $("#checkboxContainer input[type=checkbox]").toArray();
     var checkedParameters = [];
     for (var i = 0; i < checkboxArray.length; i++){
@@ -54,23 +54,47 @@ function drawTable(obj){
         }
     }
 
-    console.log(checkedParameters);
-
-    // We have our checkedParameters - cross check data point's available measurements
-	for (var i = 0; i < results.length; i++){ // for each data point we have gotten
-        for (var j = 0; j < results[i].measurements.length; j++){ // for each measurement contained in data point
-            if (checkedParameters.includes(results[i].measurements[j].parameter)){
-                // We have a parameter in our datapoint that is checked - put it in table
-                str += "<tr>";
-                str += "<td>" + results[i].location + "</td>";
-                str += "<td>" + results[i].measurements[j].parameter + "</td>";
-                str += "<td>" + results[i].measurements[j].value + " " + results[i].measurements[j].unit + "</td>";
-                str += "<td>" + results[i].measurements[j].lastUpdated + "</td>";
-                str += "</tr>"
+    for (var i = 0; i < results.length; i++){ // for each data point we have gotten
+        for (var j = 0; j < results[i].measurements.length; j++) { // for each measurement contained in data point
+            if (checkedParameters.includes(results[i].measurements[j].parameter)) { // measurement in checked params
+                results[i].measurements[j].displayed = true;
+            } else {
+                results[i].measurements[j].displayed = false;
             }
         }
-	}
-    $("#dataTable tbody").html(str);
+        var lastUpdated = results[i].measurements[0].lastUpdated;
+        for (var j = 0; j < checkedParameters.length; j++){ // for each checked parameter
+            if (!results[i].measurements.some(e => e.parameter === checkedParameters[j])){
+                var emptyMeasurement = {parameter: checkedParameters[j], value: "---", displayed: true, lastUpdated: lastUpdated};
+                results[i].measurements.splice(j, 0, emptyMeasurement);
+            }
+        }
+    }
+
+    console.log(results)
+
+
+    var scope = angular.element($("#dataTable")).scope();
+    scope.$apply(function(){
+        scope.data = results;
+        scope.checkedParameters = checkedParameters;
+    })
+
+    // // We have our checkedParameters - cross check data point's available measurements
+    // for (var i = 0; i < results.length; i++){ // for each data point we have gotten
+    //     for (var j = 0; j < results[i].measurements.length; j++){ // for each measurement contained in data point
+    //         if (checkedParameters.includes(results[i].measurements[j].parameter)){
+    //             // We have a parameter in our datapoint that is checked - put it in table
+    //             str += "<tr>";
+    //             str += "<td>" + results[i].location + "</td>";
+    //             str += "<td>" + results[i].measurements[j].parameter + "</td>";
+    //             str += "<td>" + results[i].measurements[j].value + " " + results[i].measurements[j].unit + "</td>";
+    //             str += "<td>" + results[i].measurements[j].lastUpdated + "</td>";
+    //             str += "</tr>"
+    //         }
+    //     }
+    // }
+    // $("#dataTable tbody").html(str);
 }
 
 function getRequestObject(coords, radius){
@@ -82,19 +106,10 @@ function getRequestObject(coords, radius){
             parameters.push(checkbox.id);
         }
     });
-    console.log(parameters);
+
+    var
+
     var requestObject = {"coordinates": coords, "radius": radius};
     return requestObject;
 }
 
-function includeMeasurement(measurement){
-    // This will get called during the drawTable function to check if a data point's measurements fall within
-    // the given filter constraints
-    var returnBoolean = true;
-    var controlArray = $("#checkboxContainer select").toArray();
-    var constraintArray = $("#checkboxContainer input[type=number]").toArray();
-
-    for (var i=0; i < resultObject.measurements.length; i++){ // for each measurement in the data point
-
-    }
-}

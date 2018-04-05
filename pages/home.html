@@ -6,18 +6,23 @@
             initMap();
         </script>
     </div>
-    <div id="dataTable" class="col-md-6">
+
+    <div id="dataTable" class="col-md-6" ng-app="tableApp" ng-controller="mainController">
+        {{test}}
         <table id="airQualityTable">
-            <thead>
-            <tr><th>Location</th><th>Parameter</th><th>Measurement</th><th>Time Taken</th></tr>
-            </thead>
-            <tbody>
-            <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
-            <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
-            <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
-            <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
-            <tr><td>Test</td><td>Test</td><td>Test</td><td>Test</td></tr>
-            </tbody>
+            <tr>
+                <th>Location</th>
+                <th ng-repeat="param in checkedParameters">{{param}}</th>
+                <th>Date</th>
+            </tr>
+            <tr ng-repeat="dataPoint in data">
+                <td>{{ dataPoint.location }}</td>
+                <td ng-repeat="measurement in dataPoint.measurements" ng-show="measurement.displayed">
+                    {{ measurement.value }} {{ measurement.unit }}
+                </td>
+                <td> {{ dataPoint.measurements[0].lastUpdated }}</td>
+
+            </tr>
         </table>
     </div>
 </div>

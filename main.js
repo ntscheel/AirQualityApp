@@ -16,6 +16,7 @@ mainApp.config(function($routeProvider){
 
 mainApp.controller('mainController', function($scope) {
    $scope.message = 'Main page';
+   $scope.test = "test";
 });
 
 mainApp.controller('aboutController', function($scope) {
