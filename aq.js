@@ -9,7 +9,7 @@ function requestAQ(coords, radius){
 	//var str = JSON.stringify(requestObj);
 	console.log(requestObj);
 
-    $.get( "https://api.openaq.org/v1/measurements", requestObj )
+    $.get( "https://api.openaq.org/v1/latest", requestObj )
         .done(function( obj ) {
             console.log(obj);
             drawTable(obj);
@@ -42,16 +42,34 @@ function getCoords(obj) {
 function drawTable(obj){
 	var results = obj.results;
 	var str = "";
-	for (var i = 0; i < results.length; i++){
-		str += "<tr>";
-		str += "<td>" + results[i].location + "</td>";
-		str += "<td>" + results[i].parameter + "</td>";
-		str += "<td>" + results[i].value + " " + results[i].unit + "</td>";
-		str += "<td>" + results[i].lastUpdated + "</td>";
-		str += "</tr>"
 
-		$("#dataTable tbody").html(str);
+	// Get a list of the checked parameter boxes.
+    var checkboxes = $("#checkboxContainer input").toArray();
+    var checkedParameters = [];
+    for (var i = 0; i < checkboxes.length; i++){
+        // for each checkbox, if checked, add that id to the param array
+        if (checkboxes[i].checked){
+            checkedParameters.push(checkboxes[i].id);
+        }
+    }
+
+    // We have our checkedParameters - cross check data point's available measurements
+	for (var i = 0; i < results.length; i++){ // for each data point we have gotten
+        for (var j = 0; j < results[i].measurements.length; j++){ // for each measurement contained in data point
+            console.log("checkedParameters: " + checkedParameters);
+            console.log("parameter: " + results[i].measurements[j].parameter);
+            if (checkedParameters.includes(results[i].measurements[j].parameter)){
+                // We have a parameter in our datapoint that is checked - put it in table
+                str += "<tr>";
+                str += "<td>" + results[i].location + "</td>";
+                str += "<td>" + results[i].measurements[j].parameter + "</td>";
+                str += "<td>" + results[i].measurements[j].value + " " + results[i].measurements[j].unit + "</td>";
+                str += "<td>" + results[i].measurements[j].lastUpdated + "</td>";
+                str += "</tr>"
+            }
+        }
 	}
+    $("#dataTable tbody").html(str);
 }
 
 function getRequestObject(coords, radius){
@@ -64,6 +82,6 @@ function getRequestObject(coords, radius){
         }
     });
     console.log(parameters);
-    var requestObject = {"coordinates": coords, "radius": radius, "parameter[]": parameters, date_from:"2018-04-03T16:00:00"};
+    var requestObject = {"coordinates": coords, "radius": radius};
     return requestObject;
 }
