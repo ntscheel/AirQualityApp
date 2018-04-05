@@ -39,25 +39,26 @@ function getCoords(obj) {
     }
     return coordArray;
 }
+
 function drawTable(obj){
 	var results = obj.results;
 	var str = "";
 
 	// Get a list of the checked parameter boxes.
-    var checkboxes = $("#checkboxContainer input").toArray();
+    var checkboxArray = $("#checkboxContainer input[type=checkbox]").toArray();
     var checkedParameters = [];
-    for (var i = 0; i < checkboxes.length; i++){
+    for (var i = 0; i < checkboxArray.length; i++){
         // for each checkbox, if checked, add that id to the param array
-        if (checkboxes[i].checked){
-            checkedParameters.push(checkboxes[i].id);
+        if (checkboxArray[i].checked){
+            checkedParameters.push(checkboxArray[i].name);
         }
     }
+
+    console.log(checkedParameters);
 
     // We have our checkedParameters - cross check data point's available measurements
 	for (var i = 0; i < results.length; i++){ // for each data point we have gotten
         for (var j = 0; j < results[i].measurements.length; j++){ // for each measurement contained in data point
-            console.log("checkedParameters: " + checkedParameters);
-            console.log("parameter: " + results[i].measurements[j].parameter);
             if (checkedParameters.includes(results[i].measurements[j].parameter)){
                 // We have a parameter in our datapoint that is checked - put it in table
                 str += "<tr>";
@@ -84,4 +85,16 @@ function getRequestObject(coords, radius){
     console.log(parameters);
     var requestObject = {"coordinates": coords, "radius": radius};
     return requestObject;
+}
+
+function includeMeasurement(measurement){
+    // This will get called during the drawTable function to check if a data point's measurements fall within
+    // the given filter constraints
+    var returnBoolean = true;
+    var controlArray = $("#checkboxContainer select").toArray();
+    var constraintArray = $("#checkboxContainer input[type=number]").toArray();
+
+    for (var i=0; i < resultObject.measurements.length; i++){ // for each measurement in the data point
+
+    }
 }
