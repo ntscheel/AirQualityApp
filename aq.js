@@ -34,12 +34,12 @@ function drawTable(obj){
 	var str = "";
 
 	// Get a list of the checked parameter boxes.
-    var checkboxes = $("#checkboxContainer input").toArray();
+    var checkboxArray = $("#checkboxContainer input[type=checkbox]").toArray();
     var checkedParameters = [];
-    for (var i = 0; i < checkboxes.length; i++){
+    for (var i = 0; i < checkboxArray.length; i++){
         // for each checkbox, if checked, add that id to the param array
-        if (checkboxes[i].checked){
-            checkedParameters.push(checkboxes[i].id);
+        if (checkboxArray[i].checked){
+            checkedParameters.push(checkboxArray[i].name);
         }
     }
 
@@ -74,4 +74,16 @@ function getRequestObject(coords, radius){
     // console.log(parameters);
     var requestObject = {"coordinates": coords, "radius": radius};
     return requestObject;
+}
+
+function includeMeasurement(measurement){
+    // This will get called during the drawTable function to check if a data point's measurements fall within
+    // the given filter constraints
+    var returnBoolean = true;
+    var controlArray = $("#checkboxContainer select").toArray();
+    var constraintArray = $("#checkboxContainer input[type=number]").toArray();
+
+    for (var i=0; i < resultObject.measurements.length; i++){ // for each measurement in the data point
+
+    }
 }
