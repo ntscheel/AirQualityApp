@@ -41,14 +41,14 @@ h1{
 .header > * {
     margin: 0px 15px;
 }
-.header h1{
+.header h1, .header h1 a{
     color: #24363d;
 }
 .header h4{
     color: #FEFFFF;
 }
 .footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     height: 50px; /* Set the fixed height of the footer here */
