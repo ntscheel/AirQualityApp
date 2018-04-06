@@ -13,6 +13,7 @@ function requestAQ(coords, radius){
         .done(function( obj ) {
             drawTable(obj);
             createMarkers(obj.results);
+            updatePoints(obj)
         });
 
 	// // On request completion
@@ -59,30 +60,11 @@ function drawTable(obj){
         }
     }
 
-    console.log(results)
-
-
     var scope = angular.element($("#dataTable")).scope();
     scope.$apply(function(){
         scope.data = results;
         scope.checkedParameters = checkedParameters;
     })
-
-    // // We have our checkedParameters - cross check data point's available measurements
-    // for (var i = 0; i < results.length; i++){ // for each data point we have gotten
-    //     for (var j = 0; j < results[i].measurements.length; j++){ // for each measurement contained in data point
-    //         if (checkedParameters.includes(results[i].measurements[j].parameter)){
-    //             // We have a parameter in our datapoint that is checked - put it in table
-    //             str += "<tr>";
-    //             str += "<td>" + results[i].location + "</td>";
-    //             str += "<td>" + results[i].measurements[j].parameter + "</td>";
-    //             str += "<td>" + results[i].measurements[j].value + " " + results[i].measurements[j].unit + "</td>";
-    //             str += "<td>" + results[i].measurements[j].lastUpdated + "</td>";
-    //             str += "</tr>"
-    //         }
-    //     }
-    // }
-    // $("#dataTable tbody").html(str);
 }
 
 function getRequestObject(coords, radius){

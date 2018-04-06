@@ -1,14 +1,34 @@
 <!-- Google Maps API key: AIzaSyDCsSg_0-Xce4utRO6SanxQD1hPGCm7GYc -->
 
-var map;
+var map, heatmap;
 var markers = [];
 var infoWindow;
+var gradient = [
+    'rgba(0, 255, 255, 0)',
+    'rgba(0, 255, 255, 1)',
+    'rgba(0, 191, 255, 1)',
+    'rgba(0, 127, 255, 1)',
+    'rgba(0, 63, 255, 1)',
+    'rgba(0, 0, 255, 1)',
+    'rgba(0, 0, 223, 1)',
+    'rgba(0, 0, 191, 1)',
+    'rgba(0, 0, 159, 1)',
+    'rgba(0, 0, 127, 1)',
+    'rgba(63, 0, 91, 1)',
+    'rgba(127, 0, 63, 1)',
+    'rgba(191, 0, 31, 1)',
+    'rgba(255, 0, 0, 1)'
+    ];
+
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 44.940623, lng: -93.193660},
         zoom: 13,
         mapTypeId: 'roadmap'
     });
+
+    heatmap = new google.maps.visualization.HeatmapLayer();
+
     infoWindow = new google.maps.InfoWindow;
     var geocoder = new google.maps.Geocoder;
 
@@ -98,7 +118,6 @@ function initMap() {
 }
 
 function createMarkers(results){
-    console.log("In createMarkers:");
     if(results){
         // Clear out the old markers.
         markers.forEach(function(marker) {
@@ -115,7 +134,6 @@ function createMarkers(results){
 
             var content = "<b>" + loc + "</b>";
             var data = results[i].measurements;
-            console.log(data);
             if(data.length > 0){
                 for(var j = 0; j < data.length; j++){
                     content += "<p>" + data[j].parameter + ": " + data[j].value + " " + data[j].unit + "</p>";
@@ -175,6 +193,70 @@ function createMarkers(results){
             });
 
     }
+}
+
+function toggleHeatMap() {
+
+    var checkboxArray = $("#checkboxContainer input[type=checkbox]").toArray();
+    var checkedParameters = [];
+    for (var i = 0; i < checkboxArray.length; i++) {
+        // for each checkbox, if checked, add that id to the param array
+        if (checkboxArray[i].checked) {
+            checkedParameters.push(checkboxArray[i].name);
+        }
+    }
+
+    if (heatmap.getMap()) {
+        heatmap.setMap(null);
+    } else if (checkedParameters.length == 1){
+        heatmap.setMap(map);
+    }
+}
+
+function updatePoints(data){
+    var checkboxArray = $("#checkboxContainer input[type=checkbox]").toArray();
+    var checkedParameters = [];
+    for (var i = 0; i < checkboxArray.length; i++) {
+        // for each checkbox, if checked, add that id to the param array
+        if (checkboxArray[i].checked) {
+            checkedParameters.push(checkboxArray[i].name);
+        }
+    }
+
+    if (checkedParameters.length != 1){
+        return;
+    }
+
+    console.log("test");
+    var parameter = checkedParameters[0];
+    var results = data.results;
+    var LatLngArray = [];
+    var newLatLng;
+    var weight;
+    var weightedDataPoint;
+    console.log(results);
+    for(var i=0; i < results.length; i++) {
+        newLatLng = new google.maps.LatLng(results[i].coordinates.latitude, results[i].coordinates.longitude);
+        //get value of right parameter
+        for(var j=0; j < results[i].measurements.length; j++){
+            if (results[i].measurements[j].parameter == parameter){
+                weight = results[i].measurements[j].value;
+                if(weight == "---"){
+                    weight = 0;
+                }
+            }
+        }
+        weightedDataPoint = {location: newLatLng, weight: weight};
+        LatLngArray.push(weightedDataPoint);
+    }
+
+    heatmap.setMap(null);
+    heatmap = new google.maps.visualization.HeatmapLayer({
+        data: LatLngArray,
+        map: heatmap.getMap()
+    });
+    heatmap.set('gradient', gradient);
+
 }
 
 function geocodeLatLng(geocoder, map, infowindow, latlngInput, input) {
