@@ -72,7 +72,6 @@ function initMap() {
 
         // Clear out the old markers.
         markers.forEach(function(marker) {
-            console.log(marker);
             marker.setMap(null);
         });
         markers = [];
@@ -81,7 +80,6 @@ function initMap() {
         var bounds = new google.maps.LatLngBounds();
         places.forEach(function(place) {
             if (!place.geometry) {
-                console.log("Returned place contains no geometry");
                 return;
             }
             var icon = {
