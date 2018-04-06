@@ -226,7 +226,7 @@ function updatePoints(data){
     if (checkedParameters.length != 1){
         return;
     }
-    
+
     var parameter = checkedParameters[0];
     var results = data.results;
     var LatLngArray = [];
