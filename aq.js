@@ -7,14 +7,12 @@ function requestAQ(coords, radius){
 
 	//console.log(requestObj);
 	//var str = JSON.stringify(requestObj);
-	console.log(requestObj);
+	// console.log(requestObj);
 
     $.get( "https://api.openaq.org/v1/latest", requestObj )
         .done(function( obj ) {
-            console.log(obj);
             drawTable(obj);
-            coordsArr = getCoords(obj);
-            createMarkers(coordsArr);
+            createMarkers(obj.results);
         });
 
 	// // On request completion
@@ -31,19 +29,9 @@ function requestAQ(coords, radius){
 	// req.send();
 }
 
-function getCoords(obj) {
-    var results = obj.results;
-    var coordArray = [];
-    for (var i = 0; i < results.length; i++) {
-        coordArray[i] = results[i].coordinates.longitude + ',' + results[i].coordinates.latitude + ',' + results[i].location;
-    }
-    return coordArray;
-}
-
 function drawTable(obj){
 
     var results = obj.results;
-    var params = ["pm25", "pm10", "so2", "no2", "o3", "co", "bc"];
 
     var checkboxArray = $("#checkboxContainer input[type=checkbox]").toArray();
     var checkedParameters = [];
@@ -106,9 +94,6 @@ function getRequestObject(coords, radius){
             parameters.push(checkbox.id);
         }
     });
-
-    var
-
     var requestObject = {"coordinates": coords, "radius": radius};
     return requestObject;
 }

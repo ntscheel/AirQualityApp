@@ -20,6 +20,9 @@ body {
 h1{
     font-weight: bold;
 }
+hr {
+    border-color: #24363d;
+}
 .header{
     display: flex;
     flex-wrap: wrap;
@@ -47,6 +50,12 @@ h1{
 .header h4{
     color: #FEFFFF;
 }
+
+.about a {
+    color: #DEF2F1;
+    text-decoration: underline;
+}
+
 .footer {
     position: fixed;
     bottom: 0;
@@ -61,10 +70,22 @@ h1{
     color: #FEFFFF;
 }
 
+#checkboxContainer {
+    background-color: #DEF2F1;
+    border: 1px solid #24363d;
+    border-radius: 10px;
+}
+
+.aboutImg {
+    height: 250px;
+    width: auto;
+}
+
 /* ----- Table Styles ----- */
 table {
     border-collapse: collapse;
     width: 100%;
+    margin: 10px;
 }
 
 td, th {
