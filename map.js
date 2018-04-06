@@ -226,15 +226,14 @@ function updatePoints(data){
     if (checkedParameters.length != 1){
         return;
     }
-
-    console.log("test");
+    
     var parameter = checkedParameters[0];
     var results = data.results;
     var LatLngArray = [];
     var newLatLng;
     var weight;
     var weightedDataPoint;
-    console.log(results);
+
     for(var i=0; i < results.length; i++) {
         newLatLng = new google.maps.LatLng(results[i].coordinates.latitude, results[i].coordinates.longitude);
         //get value of right parameter
