@@ -18,7 +18,7 @@ var gradient = [
     'rgba(127, 0, 63, 1)',
     'rgba(191, 0, 31, 1)',
     'rgba(255, 0, 0, 1)'
-    ];
+];
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -38,7 +38,7 @@ function initMap() {
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
     input.addEventListener('focus', function() {
-       input.value = "";
+        input.value = "";
     });
 
     // Bias the SearchBox results towards current map's viewport.
@@ -110,11 +110,22 @@ function initMap() {
         map.fitBounds(bounds);
     });
 
-    var LatLng = map.getCenter();
-    var latlngStr = (LatLng.lat() + "," + LatLng.lng());
-    var radius = calculateRadius(LatLng.lat(), map.zoom);
-    geocodeLatLng(geocoder, map, infoWindow, latlngStr, input); // Get location name
-    requestAQ(LatLng.lat() + "," + LatLng.lng(), radius);
+
+    function updateMap(){
+        var LatLng = map.getCenter();
+        var latlngStr = (LatLng.lat() + "," + LatLng.lng());
+        var radius = calculateRadius(LatLng.lat(), map.zoom);
+        geocodeLatLng(geocoder, map, infoWindow, latlngStr, input); // Get location name
+        requestAQ(LatLng.lat() + "," + LatLng.lng(), radius);
+    }
+
+    $('#checkboxContainer > div > input').click(function(){
+        updateMap();
+    });
+
+    updateMap();
+
+
 }
 
 function createMarkers(results){
@@ -196,7 +207,6 @@ function createMarkers(results){
 }
 
 function toggleHeatMap() {
-
     var checkboxArray = $("#checkboxContainer input[type=checkbox]").toArray();
     var checkedParameters = [];
     for (var i = 0; i < checkboxArray.length; i++) {
@@ -207,8 +217,10 @@ function toggleHeatMap() {
     }
 
     if (heatmap.getMap()) {
+        $('#heatMapButton').html("Toggle Heat Map On");
         heatmap.setMap(null);
     } else if (checkedParameters.length == 1){
+        $('#heatMapButton').html("Toggle Heat Map Off");
         heatmap.setMap(map);
     }
 }

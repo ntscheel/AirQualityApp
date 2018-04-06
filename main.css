@@ -71,6 +71,8 @@ hr {
 }
 
 #checkboxContainer {
+    padding: 15px;
+    height: 400px;
     background-color: #DEF2F1;
     border: 1px solid #24363d;
     border-radius: 10px;

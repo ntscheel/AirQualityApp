@@ -7,26 +7,8 @@
         </script>
     </div>
 
-    <div id="dataTable" class="col-md-6" ng-app="tableApp" ng-controller="mainController">
-        <table id="airQualityTable">
-            <tr>
-                <th>Location</th>
-                <th ng-repeat="param in checkedParameters">{{param}}</th>
-                <th>Date</th>
-            </tr>
-            <tr ng-repeat="dataPoint in data">
-                <td>{{ dataPoint.location }}</td>
-                <td ng-repeat="measurement in dataPoint.measurements" ng-show="measurement.displayed">
-                    {{ measurement.value }} {{ measurement.unit }}
-                </td>
-                <td> {{ dataPoint.measurements[0].lastUpdated }}</td>
-
-            </tr>
-        </table>
-    </div>
-</div>
-<div class="row">
-    <div id="checkboxContainer" class="col-md-6" style="background-color: white">
+    <div id="checkboxContainer" class="col-md-4" style="background-color: white">
+        <h3>Control Panel</h3>
         <div id="pm25">
             <input type="checkbox" id="pm25checkbox" name="pm25">
             <label for="pm25">pm25</label>
@@ -61,11 +43,27 @@
             <input type="checkbox" id="bccheckbox" name="bc">
             <label for="bc">bc</label>
         </div>
-        <button id="heatMapButton">Toggle Heat Map</button>
-        <script>
-            $("#heatMapButton").on("click", function(){
-                toggleHeatMap();
-            })
-        </script>
+        <button id="heatMapButton" onclick="toggleHeatMap();">Toggle Heat Map On</button>
     </div>
+
+</div>
+<div class="row justify-content-md-center">
+    <div id="dataTable" class="col-md-10 col-md-offset-1" ng-app="tableApp" ng-controller="mainController">
+        <table id="airQualityTable">
+            <tr>
+                <th>Location</th>
+                <th ng-repeat="param in checkedParameters">{{param}}</th>
+                <th>Date</th>
+            </tr>
+            <tr ng-repeat="dataPoint in data">
+                <td>{{ dataPoint.location }}</td>
+                <td ng-repeat="measurement in dataPoint.measurements" ng-show="measurement.displayed">
+                    {{ measurement.value }} {{ measurement.unit }}
+                </td>
+                <td> {{ dataPoint.measurements[0].lastUpdated }}</td>
+
+            </tr>
+        </table>
+    </div>
+
 </div>
